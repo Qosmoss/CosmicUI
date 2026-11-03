@@ -11,9 +11,7 @@ if [ -d "$DONOR_UNPACK" ]; then
     find "$DONOR_UNPACK" -maxdepth 1 -type f -name "*.img" ! -name "super.img" ! -name "super.img.raw" -exec cp {} "$PORT_DIR/" \; 2>/dev/null
 fi
 
-MODS_LIST=("${BASE_MODS[@]}" "${TARGET_MODS[@]}")
-
-for mod_path in "${MODS_LIST[@]}"; do
+for mod_path in "${MODS[@]}"; do
     mod_dir="./mods/$mod_path"
     if [ -d "$mod_dir" ]; then
         for custom_cfg in "$mod_dir"/unified_config-*; do

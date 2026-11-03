@@ -1,4 +1,0 @@
-MODEL="SM-S721B"
-REGION="EUX"
-VERSION=""
-BASE_MODS=("lhbm-fix")
