@@ -1,14 +1,14 @@
 #!/bin/bash
 
-sudo rm -rf "$OUTPUT_DIR"
-mkdir -p "$OUTPUT_DIR"
+sudo rm -rf "$OUTPUT"
+mkdir -p "$OUTPUT"
 
 PARTITIONS=($(find "$PORT_ROOTFS" -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
 
 for part in "${PARTITIONS[@]}"; do
     SRC_SUBDIR="$PORT_ROOTFS/$part"
-    IMG_OUTPUT="$OUTPUT_DIR/$part.img"
-    UNIFIED_CONFIG="$PORT_META/unified_config-$part"
+    IMG_OUTPUT="$OUTPUT/super/$part.img"
+    UNIFIED_CONFIG="$PORT_METADATA/unified_config-$part"
     
     if [ ! -f "$UNIFIED_CONFIG" ]; then
         continue
@@ -58,6 +58,6 @@ for part in "${PARTITIONS[@]}"; do
     fi
 done
 
-find "$PORT_DIR" -maxdepth 1 -type f -name "*.img" -exec cp {} "$OUTPUT_DIR/" \; 2>/dev/null
+find "$PORT" -maxdepth 1 -type f -name "*.img" -exec cp {} "$OUTPUT/" \; 2>/dev/null
 
 echo "All img are repacked"

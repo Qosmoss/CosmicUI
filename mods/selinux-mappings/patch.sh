@@ -1,7 +1,7 @@
 #!/bin/bash
 TARGET_MAPPING_PATH="/system/system/system_ext/etc/selinux/mapping"
 PORT_TARGET_DIR="$PORT_ROOTFS$TARGET_MAPPING_PATH"
-STOCK_TARGET_DIR="$STOCK_ROOTFS$TARGET_MAPPING_PATH"
+STOCK_TARGET_DIR="$TARGET_ROOTFS$TARGET_MAPPING_PATH"
 META_MAPPING_PATH="/system/system_ext/etc/selinux/mapping"
 
 if [ -d "$STOCK_TARGET_DIR" ]; then
@@ -12,8 +12,8 @@ if [ -d "$STOCK_TARGET_DIR" ]; then
     echo "Copying target mapping files."
     sudo cp -a "$STOCK_TARGET_DIR" "$PORT_TARGET_DIR"
     
-    STOCK_CFG="$STOCK_META/unified_config-system"
-    PORT_CFG="$PORT_META/unified_config-system"
+    STOCK_CFG="$TARGET_METADATA/unified_config-system"
+    PORT_CFG="$PORT_METADATA/unified_config-system"
     
     if [ -f "$STOCK_CFG" ] && [ -f "$PORT_CFG" ]; then
         echo "Syncing SELinux"
@@ -23,7 +23,7 @@ if [ -d "$STOCK_TARGET_DIR" ]; then
         if [ -s "$TMP_MOD_CFG" ]; then
             TMP_MERGE=$(mktemp)
             cat "$PORT_CFG" "$TMP_MOD_CFG" > "$TMP_MERGE"
-            tac "$TMP_MERGE" | awk -F'|' '!x[$1]++' | tac > "$PORT_META/unified_config-system"
+            tac "$TMP_MERGE" | awk -F'|' '!x[$1]++' | tac > "$PORT_METADATA/unified_config-system"
             
             rm -f "$TMP_MERGE"
         else

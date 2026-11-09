@@ -1,9 +1,9 @@
 #!/bin/bash
 echo -e "Fetching $CURRENT_MODE Firmware ($MODEL)"
 
-mkdir -p "$DOWNLOAD_DIR"
+mkdir -p "$NODE_DIR/downloads"
 
-if [ -f "$FINAL_ZIP" ]; then
+if [ -f "$FIRMWARE" ]; then
     echo "Firmware package already exists"
     return 0
 fi
@@ -26,11 +26,11 @@ fi
 
 # 5. Скачивание
 echo "Starting download..."
-samloader download $SAM_CMD -v "$VERSION_TO_DOWNLOAD" -o "$FINAL_ZIP"
+samloader download $SAM_CMD -v "$VERSION_TO_DOWNLOAD" -o "$FIRMWARE"
 
 # 7. Проверка результата
-if [ -f "$FINAL_ZIP" ]; then
-    echo "Firmware downloaded: $FINAL_ZIP"
+if [ -f "$FIRMWARE" ]; then
+    echo "Firmware downloaded: $FIRMWARE"
 else
     echo "Error: firmware.zip not found."
     return 1

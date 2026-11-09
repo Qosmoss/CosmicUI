@@ -2,7 +2,7 @@
 
 VINTF_DIR="/system/system/etc/vintf"
 PORT_VINTF_TARGET="$PORT_ROOTFS$VINTF_DIR"
-STOCK_VINTF_SOURCE="$STOCK_ROOTFS$VINTF_DIR"
+STOCK_VINTF_SOURCE="$TARGET_ROOTFS$VINTF_DIR"
 
 sudo mkdir -p "$PORT_VINTF_TARGET"
 
@@ -18,8 +18,8 @@ if [ -f "$STOCK_VINTF_SOURCE/manifest.xml" ]; then
     sudo cp -a "$STOCK_VINTF_SOURCE/manifest.xml" "$PORT_VINTF_TARGET/manifest.xml"
 fi
 
-PORT_CFG="$PORT_META/unified_config-system"
-STOCK_CFG="$STOCK_META/unified_config-system"
+PORT_CFG="$PORT_METADATA/unified_config-system"
+STOCK_CFG="$TARGET_METADATA/unified_config-system"
 
 if [ -f "$STOCK_CFG" ] && [ -f "$PORT_CFG" ]; then
     echo "Aligning SELinux contexts."

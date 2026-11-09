@@ -3,28 +3,24 @@ ROM_VERSION="0.1-beta"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR="$ROOT_DIR/workspace"
 NODE_DIR="$WORK_DIR/firmwares/$CURRENT_MODE"
+# Download
+FIRMWARE="$NODE_DIR/downloads/firmware.zip"
+UNPACKED="$NODE_DIR/unpacked"
+ROOTFS="$NODE_DIR/rootfs"
+EXTRACTED="$NODE_DIR/extracted"
+METADATA="$NODE_DIR/metadata"
 
-DOWNLOAD_DIR="$NODE_DIR/downloads"
-FINAL_ZIP="$DOWNLOAD_DIR/firmware.zip"
+# Donor directories(s23fe)
+SOURCE_UNPACKED="$WORK_DIR/firmwares/$SOURCE/unpacked"
+SOURCE_ROOTFS="$WORK_DIR/firmwares/$SOURCE/rootfs"
+SOURCE_METADATA="$WORK_DIR/firmwares/$SOURCE/metadata"
+# Stock directories(a55)
+TARGET_UNPACKES="$WORK_DIR/firmwares/$TARGET/unpacked"
+TARGET_ROOTFS="$WORK_DIR/firmwares/$TARGET/rootfs"
+TARGET_METADATA="$WORK_DIR/firmwares/$TARGET/metadata"
+# Port or output
+PORT="$WORK_DIR/port"
+PORT_ROOTFS="$PORT/rootfs"
+PORT_METADATA="$PORT/metadata"
 
-UNPACK_DIR="$NODE_DIR/unpacked"
-SUPER_IMG="$UNPACK_DIR/super.img"
-RAW_SUPER_IMG="$UNPACK_DIR/super.img.raw"
-
-EXTRACT_DIR="$NODE_DIR/extracted"
-ROOTFS_DIR="$NODE_DIR/rootfs"
-METADATA_DIR="$NODE_DIR/metadata"
-
-STOCK_UNPACK="$WORK_DIR/firmwares/$TARGET/unpacked"
-STOCK_ROOTFS="$WORK_DIR/firmwares/$TARGET/rootfs"
-STOCK_META="$WORK_DIR/firmwares/$TARGET/metadata"
-
-DONOR_UNPACK="$WORK_DIR/firmwares/$BASE/unpacked"
-DONOR_ROOTFS="$WORK_DIR/firmwares/$BASE/rootfs"
-DONOR_META="$WORK_DIR/firmwares/$BASE/metadata"
-
-PORT_DIR="$WORK_DIR/port"
-PORT_ROOTFS="$PORT_DIR/rootfs"
-PORT_META="$PORT_DIR/metadata"
-
-OUTPUT_DIR="$WORK_DIR/output"
+OUTPUT="$WORK_DIR/output"

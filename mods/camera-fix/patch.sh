@@ -1,7 +1,7 @@
 #!/bin/bash
 TARGET_PATH="/system/system/cameradata/camera-feature.xml"
 PORT_TARGET_DIR="$PORT_ROOTFS$TARGET_PATH"
-STOCK_TARGET_DIR="$STOCK_ROOTFS$TARGET_PATH"
+STOCK_TARGET_DIR="$TARGET_ROOTFS$TARGET_PATH"
 
 if [ -f "$STOCK_TARGET_DIR" ]; then
     if [ -f "$PORT_TARGET_DIR" ]; then

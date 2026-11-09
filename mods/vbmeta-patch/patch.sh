@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ORIG_VBMETA="$PORT_DIR/vbmeta.img"
-PATCHED_VBMETA="$PORT_DIR/vbmeta_patched.img"
+ORIG_VBMETA="$TARGET_UNPACKED/vbmeta.img"
+PATCHED_VBMETA="$PORT/vbmeta_patched.img"
 
 if [ -f "$ORIG_VBMETA" ]; then
     cp -a "$ORIG_VBMETA" "$PATCHED_VBMETA"

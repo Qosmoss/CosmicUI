@@ -1,29 +1,29 @@
 #!/bash/bin
 
-if [ "$(ls -A "$ROOTFS_DIR" 2>/dev/null)" ]; then
+if [ "$(ls -A "$ROOTFS" 2>/dev/null)" ]; then
     echo  "Rootfs is already here."
     return 0
 fi
 
-if [ ! -f "$EXTRACT_DIR/system.img" ] || [ ! -f "$EXTRACT_DIR/vendor.img" ]; then
-    if [ ! -f "$SUPER_IMG" ]; then
+if [ ! -f "$EXTRACTED/system.img" ] || [ ! -f "$EXTRACTED/vendor.img" ]; then
+    if [ ! -f "$UNPACKED/super.img" ]; then
         echo "Get super.img when?"
         return 1
     fi
 
-    mkdir -p "$EXTRACT_DIR"
-    simg2img "$SUPER_IMG" "$RAW_SUPER_IMG"
+    mkdir -p "$EXTRACTED"
+    simg2img "$UNPACKED/super.img" "$UNPACKED/super.img.raw"
 
-    if [ ! -s "$RAW_SUPER_IMG" ]; then
+    if [ ! -s "$UNPACKED/super.img.raw" ]; then
         echo "Converting failed!"
-        rm -rf "$RAW_SUPER_IMG"
+        rm -rf "$UNPACKED/super.img.raw"
         return 1
     fi
 
     echo "Lpunpacking..."
-    lpunpack "$RAW_SUPER_IMG" "$EXTRACT_DIR"
-    rm -f "$RAW_SUPER_IMG"
-    cd "$EXTRACT_DIR" || return 1
+    lpunpack "$UNPACKED/super.img.raw" "$EXTRACTED"
+    rm -f "$UNPACKED/super.img.raw"
+    cd "$EXTRACTED" || return 1
     rm -f *_b.img
 
     for slot_file in *_a.img; do
@@ -35,23 +35,23 @@ if [ ! -f "$EXTRACT_DIR/system.img" ] || [ ! -f "$EXTRACT_DIR/vendor.img" ]; the
     cd - > /dev/null || return 1
 fi
 
-AVAILABLE_IMAGES=($(find "$EXTRACT_DIR" -maxdepth 1 -type f -name "*.img" | sort 2>/dev/null))
+AVAILABLE_IMAGES=($(find "$EXTRACTED" -maxdepth 1 -type f -name "*.img" | sort 2>/dev/null))
 
 if [ ${#AVAILABLE_IMAGES[@]} -eq 0 ]; then
     echo "There is no .img files."
     return 1
 fi
 
-mkdir -p "$ROOTFS_DIR" "$METADATA_DIR"
+mkdir -p "$ROOTFS" "$METADATA"
 
 for IMG_FILE in "${AVAILABLE_IMAGES[@]}"; do
     img_name=$(basename "$IMG_FILE" | sed 's|\.img$||')
-    TARGET_OUT_DIR="$ROOTFS_DIR/$img_name"
+    TARGET_OUT_DIR="$ROOTFS/$img_name"
 
     sudo rm -rf "$TARGET_OUT_DIR"
     mkdir -p "$TARGET_OUT_DIR"
     
-    UNIFIED_CONFIG="$METADATA_DIR/unified_config-$img_name"
+    UNIFIED_CONFIG="$METADATA/unified_config-$img_name"
     > "$UNIFIED_CONFIG"
     
     echo "Unpacking $img_name..."  

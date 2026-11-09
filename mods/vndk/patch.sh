@@ -1,7 +1,7 @@
 #!/bin/bash
 TARGET_PATH="/system/system/system_ext/apex"
 PORT_TARGET_DIR="$PORT_ROOTFS$TARGET_PATH"
-STOCK_TARGET_DIR="$STOCK_ROOTFS$TARGET_PATH"
+STOCK_TARGET_DIR="$TARGET_ROOTFS$TARGET_PATH"
 
 if [ -d "$STOCK_TARGET_DIR" ]; then
     if [ -d "$PORT_TARGET_DIR" ]; then
