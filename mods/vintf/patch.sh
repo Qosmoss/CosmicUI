@@ -31,7 +31,7 @@ if [ -f "$STOCK_CFG" ] && [ -f "$PORT_CFG" ]; then
         cat "$PORT_CFG" "$TMP_MOD_CFG" > "$TMP_MERGE"
         
         # Deduplicate metadata lines ensuring the stock targets override donor targets
-        tac "$TMP_MERGE" | awk -F'|' '!x[$1]++' | tac > "$PORT_META/unified_config-system"
+        tac "$TMP_MERGE" | awk -F'|' '!x[$1]++' | tac > "$PORT_METADATA/unified_config-system"
         rm -f "$TMP_MERGE"
     else
         rm -f "$TMP_MOD_CFG"

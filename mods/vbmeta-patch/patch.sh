@@ -9,7 +9,6 @@ if [ -f "$ORIG_VBMETA" ]; then
     
     if [ $? -eq 0 ]; then
         echo -e "Vbmeta was patched."
-        rm -f "$ORIG_VBMETA"
     else
         echo "Error!"
         rm -f "$PATCHED_VBMETA"

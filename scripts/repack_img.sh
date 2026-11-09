@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo rm -rf "$OUTPUT"
-mkdir -p "$OUTPUT"
+mkdir -p "$OUTPUT/super"
 
 PARTITIONS=($(find "$PORT_ROOTFS" -maxdepth 1 -mindepth 1 -type d -exec basename {} \; 2>/dev/null))
 

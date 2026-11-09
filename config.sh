@@ -15,7 +15,7 @@ SOURCE_UNPACKED="$WORK_DIR/firmwares/$SOURCE/unpacked"
 SOURCE_ROOTFS="$WORK_DIR/firmwares/$SOURCE/rootfs"
 SOURCE_METADATA="$WORK_DIR/firmwares/$SOURCE/metadata"
 # Stock directories(a55)
-TARGET_UNPACKES="$WORK_DIR/firmwares/$TARGET/unpacked"
+TARGET_UNPACKED="$WORK_DIR/firmwares/$TARGET/unpacked"
 TARGET_ROOTFS="$WORK_DIR/firmwares/$TARGET/rootfs"
 TARGET_METADATA="$WORK_DIR/firmwares/$TARGET/metadata"
 # Port or output

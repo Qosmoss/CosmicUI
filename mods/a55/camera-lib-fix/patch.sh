@@ -2,7 +2,7 @@
 TARGET_PATH="/vendor/lib64/libAImode_wrapper.camera.samsung.so"
 CONFIG_VENDOR="$PORT_ROOTFS/vendor/etc/public.libraries.txt"
 PORT_TARGET_DIR="$PORT_ROOTFS$TARGET_PATH"
-STOCK_TARGET_DIR="$TARGET_ROOTFS$TARGET_PATH"
+STOCK_TARGET_DIR="$SOURCE_ROOTFS$TARGET_PATH"
 
 if [ -f "$STOCK_TARGET_DIR" ]; then
     if [ -f "$PORT_TARGET_DIR" ]; then
