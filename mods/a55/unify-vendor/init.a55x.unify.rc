@@ -1,0 +1,28 @@
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+on early-init
+    # Audio - Firmware
+    mount none /vendor/firmware/${ro.boot.em.model}/calliope_sram.bin /vendor/firmware/calliope_sram.bin bind
+    mount none /vendor/firmware/${ro.boot.em.model}/vts.bin /vendor/firmware/vts.bin bind
+
+    # Wifi - Firmware
+    mount none /vendor/firmware/${ro.boot.em.model}/wifi/mx140.bin /vendor/firmware/wifi/mx140.bin bind
+    mount none /vendor/firmware/${ro.boot.em.model}/wifi/slsi_reg_database.bin /vendor/firmware/wifi/slsi_reg_database.bin bind
+
+    # Firmware
+    mount none /vendor/firmware/${ro.boot.em.model}/AIE.bin /vendor/firmware/AIE.bin bind
+    mount none /vendor/firmware/${ro.boot.em.model}/mfc_fw.bin /vendor/firmware/mfc_fw.bin bind
+    mount none /vendor/firmware/${ro.boot.em.model}/pablo_icpufw.bin /vendor/firmware/pablo_icpufw.bin bind
+    mount none /vendor/firmware/${ro.boot.em.model}/os.checked.bin /vendor/firmware/os.checked.bin bind
+
+    # TEEgris - Firmware
+    mount none /vendor/firmware/tee/${ro.boot.bootloader} /vendor/tee bind
+
+    # GNSS
+    on property:ro.boot.em.model=SM-A556E
+        setprop ro.vendor.gnss.variant a55xnsxx
+    on property:ro.boot.em.model=SM-A556B
+        setprop ro.vendor.gnss.variant a55xnaxx
