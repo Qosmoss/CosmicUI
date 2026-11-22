@@ -1,5 +1,6 @@
 #!/bin/bash
-ROM_VERSION="0.1-beta"
+ROM_NAME="CosmicUI"
+ROM_VERSION="1.2"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR="$ROOT_DIR/workspace"
 NODE_DIR="$WORK_DIR/firmwares/$CURRENT_MODE"
