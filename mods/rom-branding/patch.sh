@@ -5,7 +5,7 @@ PROP="$PORT_ROOTFS/system/system/build.prop"
 [ -f "$PROP" ] || { echo "rom-branding: $PROP not found, skipping."; return 0; }
 
 NEW_ID="$ROM_NAME"
-[ -n "$ROM_VERSION" ] && NEW_ID="$ROM_NAME $ROM_VERSION"
+[ -n "$ROM_VERSION" ] && NEW_ID="${ROM_NAME}_v${ROM_VERSION}"
 
 # Escape characters that mean something to sed.
 NEW_ID_ESC=$(printf '%s' "$NEW_ID" | sed 's/[&|\\]/\\&/g')

@@ -18,8 +18,8 @@ sudo cp -a "$SRC_OVERLAY" "$DST_OVERLAY"
 if [ -f "$PORT_CFG" ] && [ -f "$TARGET_CFG" ]; then
     echo "Syncing product overlay metadata."
     TMP_CFG=$(mktemp)
-    grep -v -E '^/overlay(/|$)' "$PORT_CFG" > "$TMP_CFG" || true
-    grep -E '^/overlay(/|$)' "$TARGET_CFG" >> "$TMP_CFG" || true
+    grep -v -E '^/overlay[/|]' "$PORT_CFG" > "$TMP_CFG" || true
+    grep -E '^/overlay[/|]' "$TARGET_CFG" >> "$TMP_CFG" || true
     cat "$TMP_CFG" > "$PORT_CFG"
     rm -f "$TMP_CFG"
 else
