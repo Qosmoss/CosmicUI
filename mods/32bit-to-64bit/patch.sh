@@ -26,3 +26,5 @@ for prop in \
         sudo grep -q "^$key=" "$f" || echo "$line" | sudo tee -a "$f" > /dev/null
     done
 done
+
+echo "32bit-to-64bit: build.prop files advertise arm64-v8a only."

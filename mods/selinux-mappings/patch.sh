@@ -1,39 +1,46 @@
 #!/bin/bash
-TARGET_MAPPING_PATH="/system/system/system_ext/etc/selinux/mapping"
-PORT_TARGET_DIR="$PORT_ROOTFS$TARGET_MAPPING_PATH"
-STOCK_TARGET_DIR="$TARGET_ROOTFS$TARGET_MAPPING_PATH"
-META_MAPPING_PATH="/system/system_ext/etc/selinux/mapping"
+# Replace the donor's SELinux policy-mapping directory with the target's
+# stock one, and sync the metadata so the repack step applies the right
+# labels. (The mapping lives inside the system partition at /system/etc.)
 
-if [ -d "$STOCK_TARGET_DIR" ]; then
-    if [ -d "$PORT_TARGET_DIR" ]; then
-        echo "Removing donor mapping files."
-        sudo rm -rf "$PORT_TARGET_DIR"
-    fi
-    echo "Copying target mapping files."
-    sudo cp -a "$STOCK_TARGET_DIR" "$PORT_TARGET_DIR"
-    
-    STOCK_CFG="$TARGET_METADATA/unified_config-system"
-    PORT_CFG="$PORT_METADATA/unified_config-system"
-    
-    if [ -f "$STOCK_CFG" ] && [ -f "$PORT_CFG" ]; then
-        echo "Syncing SELinux"
-        TMP_MOD_CFG=$(mktemp)
-        grep -E "^${META_MAPPING_PATH}" "$STOCK_CFG" > "$TMP_MOD_CFG"
-        
-        if [ -s "$TMP_MOD_CFG" ]; then
-            TMP_MERGE=$(mktemp)
-            cat "$PORT_CFG" "$TMP_MOD_CFG" > "$TMP_MERGE"
-            tac "$TMP_MERGE" | awk -F'|' '!x[$1]++' | tac > "$PORT_METADATA/unified_config-system"
-            
-            rm -f "$TMP_MERGE"
-        else
-            echo "No metadata found for mapping"
-        fi
-        rm -f "$TMP_MOD_CFG"
+MAPPING_FS="/system/system/etc/selinux/mapping"   # path inside the rootfs tree
+META_PREFIX="/system/etc/selinux/mapping"          # path prefix used in unified_config
+
+STOCK_MAPPING="$TARGET_ROOTFS$MAPPING_FS"
+PORT_MAPPING="$PORT_ROOTFS$MAPPING_FS"
+STOCK_CFG="$TARGET_METADATA/unified_config-system"
+PORT_CFG="$PORT_METADATA/unified_config-system"
+
+if [ ! -d "$STOCK_MAPPING" ]; then
+    warn "selinux-mappings: target mapping directory not found ($STOCK_MAPPING) — skipping"
+    return 0
+fi
+
+if [ -d "$PORT_MAPPING" ]; then
+    info "Removing donor mapping files"
+    sudo rm -rf "$PORT_MAPPING"
+fi
+info "Copying target mapping files"
+sudo mkdir -p "$(dirname "$PORT_MAPPING")"
+sudo cp -a "$STOCK_MAPPING" "$PORT_MAPPING"
+
+if [ -f "$STOCK_CFG" ] && [ -f "$PORT_CFG" ]; then
+    # Drop the donor's mapping entries, then add the target's (last wins).
+    TMP_STRIPPED="$(mktemp)"
+    grep -v -E "^${META_PREFIX}(/|\\||$)" "$PORT_CFG" > "$TMP_STRIPPED" || true
+    cat "$TMP_STRIPPED" > "$PORT_CFG"
+    rm -f "$TMP_STRIPPED"
+
+    TMP_STOCK_LINES="$(mktemp)"
+    grep -E "^${META_PREFIX}(/|\\||$)" "$STOCK_CFG" > "$TMP_STOCK_LINES" || true
+
+    if [ -s "$TMP_STOCK_LINES" ]; then
+        merge_metadata "$PORT_CFG" "$TMP_STOCK_LINES"
+        info "Synced SELinux mapping metadata"
     else
-        echo "Metadata is missing."
+        warn "No mapping entries found in target metadata ($STOCK_CFG)"
     fi
-
+    rm -f "$TMP_STOCK_LINES"
 else
-    echo "Target mapping directory not found"
+    warn "Metadata missing ($STOCK_CFG or $PORT_CFG) — permissions/contexts may be wrong"
 fi

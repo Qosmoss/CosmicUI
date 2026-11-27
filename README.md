@@ -25,7 +25,8 @@ Instead of hardcoding changes into raw system files, CosmicUI keeps **device tar
 ---
 
 ### Documentation
-* **[How to Port](docs/porting.md)** — Configuring a target device, selecting a base firmware, and building out your `MODS` list.
+* **[How to Port](docs/porting.md)** — Configuring a target device, selecting a base firmware, and building out your `MODS` list (includes the dependencies table).
+* **[Writing Mods](docs/modding.md)** — The mod contract: layout, execution order, the `unified_config-*` format, and how to add your own fix.
 
 ---
 

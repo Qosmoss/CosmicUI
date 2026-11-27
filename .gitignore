@@ -1,1 +1,16 @@
+# Build outputs and working trees
 workspace/
+
+# Scratch extraction of ROM images (not part of the engine)
+nothing/
+
+# Firmware packages and raw images — never commit these
+*.img
+*.img.raw
+*.tar
+*.tar.md5
+*.zip
+*.lz4
+
+# Logs
+*.log

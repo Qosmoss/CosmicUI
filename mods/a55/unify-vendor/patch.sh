@@ -61,7 +61,7 @@ sed -i '/^\/tee\//d' "$PORT_METADATA/unified_config-vendor"
 # The A55 vendor targets sepolicy 34.0 (device launched on Android 14), but
 # derive the init attribute from the vendor itself instead of hardcoding
 # init_XX_0 — a wrong version attribute fails policy compile at boot.
-SEPVERS="$(head -n1 "$PORT_VENDOR/etc/selinux/plat_sepolicy_vers.txt" 2>/dev/null | tr -d '[:space:]')"
+SEPVERS="$(head -n1 "$PORT_VENDOR/etc/selinux/plat_sepolicy_vers.txt" 2>/dev/null | tr -d '[:space:]' || true)"
 SEPVERS="${SEPVERS:-34.0}"
 INIT_ATTR="init_${SEPVERS//./_}"
 echo "Vendor sepolicy version $SEPVERS -> $INIT_ATTR"

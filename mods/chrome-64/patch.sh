@@ -15,6 +15,8 @@ sudo rm -rf "$PORT_PRODUCT/Chrome" "$PORT_PRODUCT/TrichromeLibrary"
 
 # Drop the matching metadata entries (repack skips missing paths anyway).
 PORT_CFG="$PORT_METADATA/unified_config-product"
-[ -f "$PORT_CFG" ] && sudo sed -i -E '\#^/app/(Chrome|TrichromeLibrary)[/|]#d' "$PORT_CFG"
+if [ -f "$PORT_CFG" ]; then
+    sed -i -E '\#^/app/(Chrome|TrichromeLibrary)[/|]#d' "$PORT_CFG" || warn "chrome-64: failed to prune metadata entries"
+fi
 
 echo "chrome-64: removed 32-bit Chrome/TrichromeLibrary."
